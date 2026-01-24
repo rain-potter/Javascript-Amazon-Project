@@ -1,3 +1,15 @@
+//exports current cart product info
+export function getProduct(productId) {
+  let matchingProduct;
+
+  products.forEach((product) => {
+    if (product.id === productId) {
+      matchingProduct = product;
+    }
+  });
+  return matchingProduct;
+}
+
 export const products = [
   {
     id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
@@ -655,6 +667,39 @@ export const products = [
       "hoodies",
       "apparel",
       "mens"
+    ]
+  }, 
+  {
+    id: "ac884ke0-56j0-45af-bhj0-51chc840a9lk",
+    image: "images/products/blue-tongued-skink-david-wareham.jpg",
+    name: "Blue-Tongued Skinks by David C. Wareham, Paperback",
+    rating: {
+      stars: 4.5,
+      count: 87
+    },
+    priceCents: 1299,
+    keywords: [
+      "books",
+      "animals",
+      "animal care",
+      "skinks",
+      "blue tongued skinks",
+    ]
+  },
+  {
+    id: "j82nfk5k-l6n0-1h8x-09ny-5nka62n0491j",
+    image: "images/products/staub-cast-iron-cocotte-basil.jpg",
+    name: "Staub Cast Iron Cocotee Made in France, Basil, 4-qt",
+    rating: {
+      stars: 5,
+      count: 4319
+    },
+    priceCents: 27200,
+    keywords: [
+      "staub",
+      "cocotte",
+      "cook ware",
+      "dutch oven"
     ]
   }
 ];

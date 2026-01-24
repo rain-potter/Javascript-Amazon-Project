@@ -1,43 +1,32 @@
 import {cart, removeFromCart, updateDeliveryOption} from '../../data/cart.js';
-import {products} from '../../data/products.js';
+import {products, getProduct} from '../../data/products.js';
 import {formatCurrency} from '../utils/money.js';
 import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
-import {deliveryOptions} from '../../data/deliveryOptions.js';
+import {deliveryOptions, getDeliveryOption} from '../../data/deliveryOptions.js';
 
+//gets current date, sets default delivery date, sets date displaying format
 const today = dayjs();
 const deliveryDate = today.add(7, 'days');
 deliveryDate.format('dddd, MMMM D');
 
+//generates HTML for the left chunk of the page, showing product info
 export function renderOrderSummary() {
 
     let cartSummaryHTML = '';
 
     cart.forEach((cartItem) => {
         const productId = cartItem.productId;
-
-        let matchingProduct;
-
-        products.forEach((product) => {
-            if (product.id === productId) {
-                matchingProduct = product;
-            }
-        });
-
+        const matchingProduct = getProduct(productId);
         const deliveryOptionId = cartItem.deliveryOptionId;
+        const deliveryOption = getDeliveryOption(deliveryOptionId);
 
-        let deliveryOption;
-
-        deliveryOptions.forEach((option) => {
-            if (option.id === deliveryOptionId) {
-                deliveryOption = option;
-            }
-        });
-
+        //defines shipping length in days from imported data
         const today = dayjs();
         const deliveryDate = today.add(
             deliveryOption.deliveryDays,
             'days'
         );
+        //formats delivery date
         const dateString = deliveryDate.format(
             'dddd, MMMM, D'
         );
@@ -80,6 +69,7 @@ export function renderOrderSummary() {
         </div>`;
     })
 
+    //shipping selections
     function deliveryOptionsHTML(matchingProduct, cartItem) {
         let html = '';
 
@@ -93,12 +83,15 @@ export function renderOrderSummary() {
                 'dddd, MMMM, D'
             );
 
+            //display price based on shipping length
             const priceString = deliveryOption.priceCents === 0
                 ? 'FREE'
                 : `$${formatCurrency(deliveryOption.priceCents)} -`;
             
+            //setting default shipping option
             const isChecked = deliveryOption.id === cartItem.deliveryOptionId;
 
+            //generating the HTML for shipping options
             html += `<div class="delivery-option js-delivery-option" data-product-id="${matchingProduct.id}" data-delivery-option-id="${deliveryOption.id}" >
                     <input type="radio" ${isChecked ?'checked' :''} class="delivery-option-input" name="delivery-option-${matchingProduct.id}">
                         <div>
@@ -116,6 +109,7 @@ export function renderOrderSummary() {
 
     document.querySelector('.js-order-summary').innerHTML = cartSummaryHTML;
 
+    //allows for removing product from the cart, and immediately updates cart
     document.querySelectorAll('.js-delete-link').forEach((link) => {
         link.addEventListener('click', () => {
             const productId = link.dataset.productId; 
@@ -126,6 +120,7 @@ export function renderOrderSummary() {
         });
     });
 
+    //allows for selecting shipping option, immediately updates option
     document.querySelectorAll('.js-delivery-option').forEach((element) => {
         element.addEventListener('click', () => {
             const {productId, deliveryOptionId} = element.dataset;

@@ -1,3 +1,4 @@
+//default cart if it's empty or localStorage is cleared
 export let cart = JSON.parse(localStorage.getItem('cart'));
 
 if (!cart) {
@@ -12,10 +13,12 @@ if (!cart) {
 }];
 }
 
+//defining localStorage save function
 function saveToStorage() {
     localStorage.setItem('cart', JSON.stringify(cart));
 }
 
+//adds product to cart and saves to localStorage
 export function addToCart(productId) {
     let matchingItem;
     cart.forEach((cartItem) => {
@@ -36,6 +39,7 @@ export function addToCart(productId) {
     saveToStorage();
 }
 
+//function to remove product from cart, saves the cart data to localStorage
 export function removeFromCart(productId) {
     const newCart = [];
 
@@ -49,6 +53,7 @@ export function removeFromCart(productId) {
     saveToStorage();
 }
 
+//allows changing of shipping option, saves option to localStorage
 export function updateDeliveryOption(productId, deliveryOptionId) {
     let matchingItem;
     cart.forEach((cartItem) => {

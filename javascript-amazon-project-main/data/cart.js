@@ -70,3 +70,15 @@ export function updateDeliveryOption(productId, deliveryOptionId) {
     matchingItem.deliveryOptionId = deliveryOptionId;
     saveToStorage();
 }
+
+//load cart from backend
+export function loadCart(fun) {
+  const xhr = new XMLHttpRequest();
+
+  xhr.addEventListener('load', () => {
+    fun();
+  })
+
+  xhr.open('GET', 'https://supersimplebackend.dev/cart');
+  xhr.send();
+}

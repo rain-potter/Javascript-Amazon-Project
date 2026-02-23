@@ -64,9 +64,12 @@ function updateCartQuantity() {
     let cartQuantity =  0;
 
     cart.forEach((cartItem) => {
+        //i don't know why this doesn't work
+        if (cartQuantity === 0) {
+            document.querySelector('.js-cart-quantity').innerHTML = '0'
+        }
         cartQuantity += cartItem.quantity;
     });
-
     document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
 }
 

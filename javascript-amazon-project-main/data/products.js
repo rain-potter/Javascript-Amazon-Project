@@ -12,6 +12,7 @@ export function getProduct(productId) {
   return matchingProduct;
 }
 
+//making parent class for products
 export class Product {
   id;
   image;
@@ -40,6 +41,7 @@ export class Product {
   }
 }
 
+//child class for clothing
 export class Clothing extends Product {
   sizeChartLink;
 
@@ -53,6 +55,7 @@ export class Clothing extends Product {
   }
 }
 
+//child class for appliances
 export class Appliance extends Product {
   instructionsLink;
   warrantyLink;
@@ -71,6 +74,7 @@ export class Appliance extends Product {
 
 export let products= [];
 
+//fetching products from backend
 export function loadProductsFetch() {
   const promise = fetch('https://supersimplebackend.dev/products').then((response) => {
     return response.json();
@@ -90,6 +94,7 @@ export function loadProductsFetch() {
   return promise;
 };
 
+//loading products
 export function loadProducts(fun) {
   const xhr = new XMLHttpRequest();
 

@@ -3,6 +3,7 @@ import {renderPaymentSummary} from './checkout/paymentSummary.js';
 import {loadProducts, loadProductsFetch} from '../data/products.js';
 import {loadCart} from '../data/cart.js';
 
+//loading the checkout page
 async function loadPage() {
     try {
         //throw 'error';

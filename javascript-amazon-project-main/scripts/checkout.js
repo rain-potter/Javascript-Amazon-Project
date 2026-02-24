@@ -3,14 +3,16 @@ import {renderPaymentSummary} from './checkout/paymentSummary.js';
 import {loadProducts, loadProductsFetch} from '../data/products.js';
 import {loadCart} from '../data/cart.js';
 
-Promise.all([
-    loadProductsFetch(), 
-    new Promise((resolve) => {
+async function loadPage() {
+    await loadProductsFetch();
+
+    await new Promise((resolve) => {
         loadCart(() => {
             resolve();
         });
-    }),
-]).then(() => {
+    })
     renderOrderSummary();
-    renderPaymentSummary();
-});
+    renderPaymentSummary();    
+}
+
+loadPage();
